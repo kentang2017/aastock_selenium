@@ -16,7 +16,7 @@ timestr = time.strftime("%Y%m%d")
 
 
 dataframelist = []
-for i in stocklist:
+for i in stocklist: #or for i in range(1, 8700) if you don't have a complete stocklist.
     try:
         elem = broswer.find_element_by_xpath("html[1]/body[1]/form[1]/div[4]/div[1]/div[2]/div[2]/div[1]/table[1]/tbody[1]/tr[1]/td[3]/table[1]/tbody[1]/tr[1]/td[1]/input[1]")
         elem.send_keys(i)
