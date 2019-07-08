@@ -4,7 +4,6 @@ from selenium.webdriver.chrome.options import Options
 from selenium.common.exceptions import NoSuchElementException, StaleElementReferenceException
 import pandas as pd
 import time
-
 chrome_options = Options()
 chrome_options.add_argument("--headless")
 broswer = webdriver.Chrome(chrome_options=chrome_options)
@@ -13,7 +12,6 @@ broswer.get(html)
 stocklist_database = pd.read_excel("strongbuy_20190610.xlsx")
 stocklist = list(stocklist_database["股票代號"])
 timestr = time.strftime("%Y%m%d")
-
 
 dataframelist = []
 for i in stocklist: #or for i in range(1, 8700) if you don't have a complete stocklist.
@@ -42,6 +40,4 @@ for i in stocklist: #or for i in range(1, 8700) if you don't have a complete sto
     dataframelist.append(eachrow)
     df = pd.concat(dataframelist)
 broswer.quit()
-
 output = df.to_csv("aastockta_"+timestr+".csv")
-       
