@@ -32,7 +32,7 @@ for i in stocklist: #or for i in range(1, 8700) if you don't have a complete sto
         rsitwenty = broswer.find_element_by_xpath("/html/body/form/div[4]/div[4]/div[4]/table/tbody/tr[3]/td[2]")
         macd_eigth_seventeen = broswer.find_element_by_xpath("/html/body/form/div[4]/div[4]/div[4]/table/tbody/tr[4]/td[2]")
         macd_twelve_twentyfive = broswer.find_element_by_xpath("/html/body/form/div[4]/div[4]/div[4]/table/tbody/tr[5]/td[2]")
-        row = [stockcode.get_attribute('textContent')[3:][:8], name.get_attribute('textContent'), price.get_attribute('textContent'),ten.get_attribute('textContent'), fifty.get_attribute('textContent'),  hundred.get_attribute('textContent'), twohundredfifty.get_attribute('textContent'),  rsiten.get_attribute('textContent'), rsifourteen.get_attribute('textContent'),  rsitwenty.get_attribute('textContent'), macd_eigth_seventeen.get_attribute('textContent'), macd_twelve_twentyfive.get_attribute('textContent'),  turnover.get_attribute('textContent')]
+        row = [stockcode.get_attribute('textContent')[3:][:8], name.get_attribute('textContent'), price.get_attribute('textContent')[2:], ten.get_attribute('textContent'), fifty.get_attribute('textContent'),  hundred.get_attribute('textContent'), twohundredfifty.get_attribute('textContent'),  rsiten.get_attribute('textContent'), rsifourteen.get_attribute('textContent'),  rsitwenty.get_attribute('textContent'), macd_eigth_seventeen.get_attribute('textContent'), macd_twelve_twentyfive.get_attribute('textContent'),  turnover.get_attribute('textContent')]
         print(row)
     except (NoSuchElementException, StaleElementReferenceException):
         pass
