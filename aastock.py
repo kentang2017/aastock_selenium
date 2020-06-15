@@ -3,7 +3,10 @@ from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.chrome.options import Options
 from selenium.common.exceptions import NoSuchElementException, StaleElementReferenceException
 import pandas as pd
-import time
+from bs4 import BeautifulSoup
+import shlex, requests, time
+
+
 chrome_options = Options()
 chrome_options.add_argument("--headless")
 broswer = webdriver.Chrome(chrome_options=chrome_options)
@@ -32,6 +35,11 @@ for i in stocklist: #or for i in range(1, 8700) if you don't have a complete sto
         rsitwenty = broswer.find_element_by_xpath("/html/body/form/div[4]/div[4]/div[4]/table/tbody/tr[3]/td[2]")
         macd_eigth_seventeen = broswer.find_element_by_xpath("/html/body/form/div[4]/div[4]/div[4]/table/tbody/tr[4]/td[2]")
         macd_twelve_twentyfive = broswer.find_element_by_xpath("/html/body/form/div[4]/div[4]/div[4]/table/tbody/tr[5]/td[2]")
+        basic_info = "http://www.aastocks.com/tc/stocks/analysis/company-fundamental/basic-information?symbol=0"+str(i).zfill(4)
+        soup10 = BeautifulSoup(requests.get(basic_info).text, "html.parser")
+        get_listed_date_position = int(shlex.split(soup10.find('table',{'class':'cnhk-cf tblM s4 s5 mar15T'}).get_text()).index('上市日期'))+1
+        listed_date =  shlex.split(soup10.find('table',{'class':'cnhk-cf tblM s4 s5 mar15T'}).get_text())[get_listed_date_position]
+        
         try:
             getprice = float(price.get_attribute('textContent')[2:])
             getten = float(ten.get_attribute('textContent'))
@@ -54,11 +62,11 @@ for i in stocklist: #or for i in range(1, 8700) if you don't have a complete sto
             getrsitwen = "-"
             getmacde = "-"
             getmacdtw = "-"
-        row = [stockcode.get_attribute('textContent')[3:][:8], name.get_attribute('textContent'), getprice, getten, getfifty, gethundred, gettwohun,  getrsiten, getrsifort,  getrsitwen, getmacde, getmacdtw,  turnover.get_attribute('textContent')]
+        row = [stockcode.get_attribute('textContent')[3:][:8], name.get_attribute('textContent'), listed_date, getprice, getten, getfifty, gethundred, gettwohun,  getrsiten, getrsifort,  getrsitwen, getmacde, getmacdtw,  turnover.get_attribute('textContent')]
         print(row)
     except (NoSuchElementException, StaleElementReferenceException):
         pass
-    eachrow = pd.DataFrame([row], columns = ['股票代號', '公司名稱', '股價', 'SMA 10', 'SMA 50', 'SMA 100', 'SMA 250', 'RSI 10', 'RSI 14', 'RSI 20', 'MACD 8/17', 'MACD 12/25', '成交量' ])
+    eachrow = pd.DataFrame([row], columns = ['股票代號', '公司名稱', '上市日期','股價', 'SMA 10', 'SMA 50', 'SMA 100', 'SMA 250', 'RSI 10', 'RSI 14', 'RSI 20', 'MACD 8/17', 'MACD 12/25', '成交量' ])
     dataframelist.append(eachrow)
     df = pd.concat(dataframelist)
 broswer.quit()
