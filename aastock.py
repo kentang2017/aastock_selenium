@@ -12,7 +12,7 @@ chrome_options.add_argument("--headless")
 broswer = webdriver.Chrome(chrome_options=chrome_options)
 html = "http://www.aastocks.com/tc/stocks/quote/detail-quote.aspx?symbol=00001"
 broswer.get(html)
-stocklist_database = pd.read_excel("strongbuy_20190610.xlsx")
+stocklist_database = pd.read_excel("strongbuy_20200615.xlsx")
 stocklist = list(stocklist_database["股票代號"])
 timestr = time.strftime("%Y%m%d")
 
